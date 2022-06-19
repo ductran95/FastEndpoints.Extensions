@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>CS1591;1701;1702;CA2016;RCS1090;CA2254;CS8618</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FastEndpoints" Version="4.2.0" />
+        <PackageReference Include="FastEndpoints.Security" Version="4.2.0" />
+        <PackageReference Include="FluentValidation" Version="11.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="Test" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="[Features]\Admin\**" />
+      <Compile Remove="[Features]\Inventory\**" />
+      <Compile Remove="[Features]\Sales\**" />
+      <Compile Remove="[Features]\Shipping\**" />
+      <Compile Remove="[Features]\TestCases\**" />
+      <Compile Remove="[Features]\Uploads\**" />
+      <Compile Remove="[Features]\Customers\List\**" />
+      <Compile Remove="[Features]\Customers\Login\**" />
+      <Compile Remove="[Features]\Customers\Update\**" />
+      <Compile Remove="[Features]\Customers\UpdateWithHeader\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="[Features]\Admin\**" />
+      <EmbeddedResource Remove="[Features]\Inventory\**" />
+      <EmbeddedResource Remove="[Features]\Sales\**" />
+      <EmbeddedResource Remove="[Features]\Shipping\**" />
+      <EmbeddedResource Remove="[Features]\TestCases\**" />
+      <EmbeddedResource Remove="[Features]\Uploads\**" />
+      <EmbeddedResource Remove="[Features]\Customers\List\**" />
+      <EmbeddedResource Remove="[Features]\Customers\Login\**" />
+      <EmbeddedResource Remove="[Features]\Customers\Update\**" />
+      <EmbeddedResource Remove="[Features]\Customers\UpdateWithHeader\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="[Features]\Admin\**" />
+      <None Remove="[Features]\Inventory\**" />
+      <None Remove="[Features]\Sales\**" />
+      <None Remove="[Features]\Shipping\**" />
+      <None Remove="[Features]\TestCases\**" />
+      <None Remove="[Features]\Uploads\**" />
+      <None Remove="[Features]\Customers\List\**" />
+      <None Remove="[Features]\Customers\Login\**" />
+      <None Remove="[Features]\Customers\Update\**" />
+      <None Remove="[Features]\Customers\UpdateWithHeader\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="[Features]\Admin\**" />
+      <Content Remove="[Features]\Inventory\**" />
+      <Content Remove="[Features]\Sales\**" />
+      <Content Remove="[Features]\Shipping\**" />
+      <Content Remove="[Features]\TestCases\**" />
+      <Content Remove="[Features]\Uploads\**" />
+      <Content Remove="[Features]\Customers\List\**" />
+      <Content Remove="[Features]\Customers\Login\**" />
+      <Content Remove="[Features]\Customers\Update\**" />
+      <Content Remove="[Features]\Customers\UpdateWithHeader\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\FastEndpoints.ApiExplorer\FastEndpoints.ApiExplorer.csproj" />
+      <ProjectReference Include="..\..\src\FastEndpoints.Swashbuckle\FastEndpoints.Swashbuckle.csproj" />
+    </ItemGroup>
+
+</Project>
