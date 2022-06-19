@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
     c.CustomSchemaIds( type => type.ToString() );
     // c.RequestBodyFilter<FastEndpointSchemaFilter>();
-    c.DocumentFilter<FastEndpointSchemaFilter>();
+    c.OperationFilter<FastEndpointSchemaFilter>();
 });
 
 var app = builder.Build();

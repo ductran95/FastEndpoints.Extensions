@@ -4,7 +4,9 @@ namespace Customers.Create;
 
 public class Request
 {
-    public int cID { get; set; }
+    public int CID { get; set; }
+    
+    public float Count { get; set; }
 
     [From(Claim.UserName)]
     public string? CreatedBy { get; set; }
@@ -18,6 +20,14 @@ public class Request
 
     [HasPermission(Allow.Customers_Create)]
     public bool HasCreatePermission { get; set; }
+    
+    public SubRequest SubData { get; set; }
+}
+
+public class SubRequest
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
 }
 
 public class Endpoint : Endpoint<Request>
