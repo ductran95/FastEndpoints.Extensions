@@ -64,7 +64,7 @@ public class FastEndpointsOperationFilter : IOperationFilter
                     case "double":
                         return new OpenApiDouble(0);
                     default:
-                        throw new NotImplementedException();
+                        return null;
                 }
 
             case "integer":
@@ -75,7 +75,7 @@ public class FastEndpointsOperationFilter : IOperationFilter
                     case "int64":
                         return new OpenApiLong(0);
                     default:
-                        throw new NotImplementedException();
+                        return null;
                 }
 
             case "string":
@@ -84,7 +84,7 @@ public class FastEndpointsOperationFilter : IOperationFilter
                     case "byte":
                         return new OpenApiByte(0);
                     case "date-time":
-                        return new OpenApiDateTime(DateTimeOffset.Now);
+                        return new OpenApiDateTime(DateTimeOffset.UtcNow);
                     case "uuid":
                         return new OpenApiString(Guid.NewGuid().ToString());
                     case "date-span":
@@ -108,7 +108,7 @@ public class FastEndpointsOperationFilter : IOperationFilter
                 return openObject;
 
             default:
-                throw new NotImplementedException();
+                return null;
         }
     }
 }
