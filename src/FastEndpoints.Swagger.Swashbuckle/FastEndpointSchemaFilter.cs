@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace FastEndpoints.Swashbuckle;
+namespace FastEndpoints.Swagger.Swashbuckle;
 
 public class FastEndpointSchemaFilter : IOperationFilter
 {

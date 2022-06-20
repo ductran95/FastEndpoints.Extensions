@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.Swashbuckle", "src\FastEndpoints.Swashbuckle\FastEndpoints.Swashbuckle.csproj", "{DEAF11AB-B94B-4E60-B1A0-EAD6ED4BE035}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.Swagger.Swashbuckle", "src\FastEndpoints.Swagger.Swashbuckle\FastEndpoints.Swagger.Swashbuckle.csproj", "{DEAF11AB-B94B-4E60-B1A0-EAD6ED4BE035}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.ApiExplorer", "src\FastEndpoints.ApiExplorer\FastEndpoints.ApiExplorer.csproj", "{BDBFED12-6BBE-4943-A23C-861B2E488F34}"
 EndProject

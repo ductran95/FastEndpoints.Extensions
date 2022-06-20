@@ -74,7 +74,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\FastEndpoints.ApiExplorer\FastEndpoints.ApiExplorer.csproj" />
-      <ProjectReference Include="..\..\src\FastEndpoints.Swashbuckle\FastEndpoints.Swashbuckle.csproj" />
+      <ProjectReference Include="..\..\src\FastEndpoints.Swagger.Swashbuckle\FastEndpoints.Swagger.Swashbuckle.csproj" />
     </ItemGroup>
 
 </Project>

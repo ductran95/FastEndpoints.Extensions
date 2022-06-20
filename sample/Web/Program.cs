@@ -4,7 +4,7 @@ global using Web.Auth;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using FastEndpoints.ApiExplorer;
-using FastEndpoints.Swashbuckle;
+using FastEndpoints.Swagger.Swashbuckle;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Web.Services;
