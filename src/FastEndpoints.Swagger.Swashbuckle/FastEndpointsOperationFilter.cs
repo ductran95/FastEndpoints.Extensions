@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FastEndpoints.Swagger.Swashbuckle;
 
-public class FastEndpointSchemaFilter : IOperationFilter
+public class FastEndpointsOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
