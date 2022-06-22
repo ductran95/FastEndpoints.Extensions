@@ -38,8 +38,8 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
     {
         foreach (var apiDescription in context.Results)
         {
-            var endpointDefinition = (EndpointDefinition)
-                apiDescription.ActionDescriptor.EndpointMetadata.FirstOrDefault(x => x is EndpointDefinition);
+            var endpointDefinition =
+                apiDescription.ActionDescriptor.EndpointMetadata.OfType<EndpointDefinition>().FirstOrDefault();
 
             if (endpointDefinition != null)
             {

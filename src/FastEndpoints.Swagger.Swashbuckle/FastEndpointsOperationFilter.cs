@@ -10,8 +10,9 @@ public class FastEndpointsOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        var endpointDefinition = (EndpointDefinition)
-            context.ApiDescription.ActionDescriptor.EndpointMetadata.FirstOrDefault(x => x is EndpointDefinition);
+        var endpointDefinition = context.ApiDescription.ActionDescriptor.EndpointMetadata
+                .OfType<EndpointDefinition>()
+                .FirstOrDefault();
 
         if (endpointDefinition != null)
         {
