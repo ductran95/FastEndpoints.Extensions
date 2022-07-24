@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.Swagger.Swash
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.ApiExplorer", "src\FastEndpoints.ApiExplorer\FastEndpoints.ApiExplorer.csproj", "{BDBFED12-6BBE-4943-A23C-861B2E488F34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.DiagnosticSources", "src\FastEndpoints.DiagnosticSources\FastEndpoints.DiagnosticSources.csproj", "{830DD188-1364-4660-A321-0AAC3E6367C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.Reflection", "src\FastEndpoints.Reflection\FastEndpoints.Reflection.csproj", "{C21DC42C-A50D-4BF9-A3C2-096AD015D6A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{BDBFED12-6BBE-4943-A23C-861B2E488F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDBFED12-6BBE-4943-A23C-861B2E488F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDBFED12-6BBE-4943-A23C-861B2E488F34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{830DD188-1364-4660-A321-0AAC3E6367C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{830DD188-1364-4660-A321-0AAC3E6367C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{830DD188-1364-4660-A321-0AAC3E6367C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{830DD188-1364-4660-A321-0AAC3E6367C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C21DC42C-A50D-4BF9-A3C2-096AD015D6A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C21DC42C-A50D-4BF9-A3C2-096AD015D6A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C21DC42C-A50D-4BF9-A3C2-096AD015D6A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C21DC42C-A50D-4BF9-A3C2-096AD015D6A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

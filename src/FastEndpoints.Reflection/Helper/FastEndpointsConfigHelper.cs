@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 
-namespace FastEndpoints.ApiExplorer.Helpers;
+namespace FastEndpoints.Reflection.Helper;
 
 public static class FastEndpointsConfigHelper
 {

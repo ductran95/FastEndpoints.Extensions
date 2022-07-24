@@ -1,4 +1,5 @@
 using FastEndpoints.ApiExplorer.Helpers;
+using FastEndpoints.Reflection.Helper;
 using Microsoft.AspNetCore.Builder;
 
 namespace FastEndpoints.ApiExplorer;
