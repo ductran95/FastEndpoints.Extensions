@@ -4,5 +4,7 @@
   ![Nuget](https://img.shields.io/nuget/dt/FastEndpoints.ApiExplorer)
 - FastEndpoints.Swagger.Swashbuckle: ![Nuget](https://img.shields.io/nuget/v/FastEndpoints.Swagger.Swashbuckle)
     ![Nuget](https://img.shields.io/nuget/dt/FastEndpoints.Swagger.Swashbuckle)
+- FastEndpoints.DiagnosticSources: ![Nuget](https://img.shields.io/nuget/v/FastEndpoints.DiagnosticSources)
+    ![Nuget](https://img.shields.io/nuget/dt/FastEndpoints.DiagnosticSources)
 
 Extensions for FastEndpoints
