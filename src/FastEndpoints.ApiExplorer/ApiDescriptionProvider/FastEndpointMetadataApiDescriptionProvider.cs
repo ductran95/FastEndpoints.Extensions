@@ -114,13 +114,13 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
                     continue;
                 }
 
-                var isRouteParam = routeParam.Any(x =>
+                var routeParamProperty = routeParam.FirstOrDefault(x =>
                     x.Name.Equals(propertyName, StringComparison.CurrentCultureIgnoreCase));
-                if (isRouteParam)
+                if (routeParamProperty != null)
                 {
                     var apiParam = CreateParameterDescription(requestType,
                         requestParameterProperty,
-                        propertyName,
+                        routeParamProperty.Name,
                         !requestParameterProperty.PropertyInfo.IsNullable(),
                         BindingSource.Path);
                     apiParamDescriptions.Add(apiParam);

@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using FastEndpoints.DiagnosticSources.Endpoint;
 using Web.Services;
 
 namespace Customers.Create;
@@ -8,7 +10,7 @@ public class Request
     
     public float Count { get; set; }
 
-    [From(Claim.UserName)]
+    // [From(Claim.UserName)]
     public string? CreatedBy { get; set; }
 
     /// <summary>
@@ -18,7 +20,7 @@ public class Request
 
     public IEnumerable<string> PhoneNumbers { get; set; }
 
-    [HasPermission(Allow.Customers_Create)]
+    // [HasPermission(Allow.Customers_Create)]
     public bool HasCreatePermission { get; set; }
     
     public SubRequest SubData { get; set; }
@@ -30,7 +32,7 @@ public class SubRequest
     public string Name { get; set; }
 }
 
-public class Endpoint : Endpoint<Request>
+public class Endpoint : DiagnosticEndpoint<Request>
 {
     private readonly IEmailService? _emailer;
 
@@ -51,6 +53,7 @@ public class Endpoint : Endpoint<Request>
         //     "/customer/{cID}/new/{SourceID}",
         //     "/customer/save");
         
+        AllowAnonymous();
         Verbs(Http.POST, Http.GET, Http.PUT, Http.DELETE);
         Routes(
             "/customer/{cID}/new",

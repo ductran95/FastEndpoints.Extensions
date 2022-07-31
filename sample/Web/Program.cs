@@ -4,25 +4,45 @@ global using Web.Auth;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using FastEndpoints.ApiExplorer;
+using FastEndpoints.DiagnosticSources.Middleware;
 using FastEndpoints.Swagger.Swashbuckle;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddCors();
 builder.Services.AddResponseCaching();
 builder.Services.AddFastEndpoints();
-builder.Services.AddAuthenticationJWTBearer(builder.Configuration["TokenKey"]);
-builder.Services.AddAuthorization(o => o.AddPolicy("AdminOnly", b => b.RequireRole(Role.Admin)));
+// builder.Services.AddAuthenticationJWTBearer(builder.Configuration["TokenKey"]);
+// builder.Services.AddAuthorization(o => o.AddPolicy("AdminOnly", b => b.RequireRole(Role.Admin)));
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddFastEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
     c.CustomSchemaIds( type => type.ToString() );
-    // c.RequestBodyFilter<FastEndpointSchemaFilter>();
     c.OperationFilter<FastEndpointsOperationFilter>();
+});
+
+// Define some important constants and the activity source
+var serviceName = "Web";
+var serviceVersion = "1.0.0";
+
+// Configure important OpenTelemetry settings, the console exporter, and instrumentation library
+builder.Services.AddOpenTelemetryTracing(b =>
+{
+    b
+        .AddConsoleExporter()
+        .AddSource(serviceName)
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+                .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
+        .AddHttpClientInstrumentation()
+        .AddAspNetCoreInstrumentation()
+        .AddSource(FastEndpoints.DiagnosticSources.Trace.ActivitySourceName);
 });
 
 var app = builder.Build();
@@ -41,9 +61,10 @@ app.UseResponseCaching();
 app.UseRouting(); //if using, this call must go before auth/cors/fastendpoints middleware
 
 app.UseCors(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthentication();
+// app.UseAuthorization();
 
+app.UseFastEndpointsDiagnosticsMiddleware();
 app.UseFastEndpoints(config =>
 {
     config.ShortEndpointNames = false;
