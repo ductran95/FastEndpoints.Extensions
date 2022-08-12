@@ -12,35 +12,38 @@ public class FastEndpointsDiagnosticsMiddleware
     public FastEndpointsDiagnosticsMiddleware(RequestDelegate next)
         => _next = next ?? throw new ArgumentNullException(nameof(next));
 
-    public Task Invoke(HttpContext ctx)
+    public async Task Invoke(HttpContext ctx)
     {
         var endpoint = ((IEndpointFeature)ctx.Features[typeof(IEndpointFeature)]!)?.Endpoint;
 
-        if (endpoint is null) return _next(ctx);
-
-        var epDef = endpoint.Metadata.GetMetadata<EndpointDefinition>();
-
-        if (epDef is not null)
+        if (endpoint is null)
         {
-            var activityName = epDef.GetActivityName();
-            var activity = Trace.ActivitySource.StartActivity(activityName);
-            return _next(ctx).ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    var exception = task.Exception?.InnerException;
-                    activity?.SetStatus(ActivityStatusCode.Error, exception?.GetType()?.Name);
-                }
-                else
-                {
-                    activity?.SetStatus(ActivityStatusCode.Ok);
-                }
-                activity?.Dispose();
-            });
+            await _next(ctx);
         }
         else
         {
-            return _next(ctx);
+            var epDef = endpoint.Metadata.GetMetadata<EndpointDefinition>();
+
+            if (epDef is not null)
+            {
+                var activityName = epDef.GetActivityName();
+                using var activity = Trace.ActivitySource.StartActivity(activityName);
+                try
+                {
+                    await _next(ctx);
+                    activity?.SetStatus(ActivityStatusCode.Ok);
+                }
+                catch (Exception ex)
+                {
+                    activity?.SetStatus(ActivityStatusCode.Error, ex.GetType().Name);
+                    throw;
+                }
+            }
+            else
+            {
+                await _next(ctx);
+            }
         }
+        
     }
 }
