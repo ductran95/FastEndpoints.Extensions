@@ -6,9 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FastEndpoints" Version="4.3.1" />
+      <PackageReference Include="FastEndpoints" Version="5.3.1" />
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
-      <PackageReference Update="MinVer" Version="4.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FastEndpoints.ApiExplorer\FastEndpoints.ApiExplorer.csproj" />
     </ItemGroup>
 
 </Project>

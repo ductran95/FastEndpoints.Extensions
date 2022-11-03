@@ -97,8 +97,7 @@ public abstract class DiagnosticEndpoint<TRequest> : Endpoint<TRequest> where TR
     }
 }
 
-public abstract class DiagnosticEndpoint<TRequest, TResponse, TMapper> : Endpoint<TRequest, TResponse, TMapper>
-    where TRequest : notnull, new() where TResponse : notnull, new() where TMapper : notnull, IEntityMapper, new()
+public abstract class DiagnosticEndpoint<TRequest, TResponse, TMapper> : Endpoint<TRequest, TResponse, TMapper> where TRequest : notnull, new() where TMapper : notnull, IMapper
 {
     public Activity Activity => Activity.Current != null && Activity.Current.OperationName == this.GetActivityName() ? Activity.Current : null;
 

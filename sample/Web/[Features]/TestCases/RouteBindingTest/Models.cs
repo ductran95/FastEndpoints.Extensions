@@ -19,6 +19,49 @@ public class Custom //: IParseable<Custom>
     }
 }
 
+public class CustomList : List<int>
+{
+    public static bool TryParse(string? input, out CustomList? output)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            output = null;
+            return false;
+        }
+        output = new CustomList();
+        foreach (var item in input.Split(';'))
+        {
+            if (int.TryParse(item, out var id))
+            {
+                output.Add(id);
+            }
+            else
+            {
+                output = null;
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+public class Person
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public NestedPerson Child { get; set; }
+    public List<int> Numbers { get; set; }
+}
+
+public class NestedPerson
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public List<string> Strings { get; set; }
+}
+
 public class Request
 {
     /// <summary>
@@ -31,12 +74,16 @@ public class Request
     public double Double { get; set; }
     public Uri? Url { get; set; }
     public Custom Custom { get; set; }
+    public CustomList CustomList { get; set; }
 
     [BindFrom("decimal")]
     public decimal DecimalNumber { get; set; }
 
     [BindFrom("XBlank")]
     public int? Blank { get; set; }
+
+    [FromQueryParams]
+    public Person Person { get; set; }
 
     /// <summary>
     /// frm body xml comment
@@ -67,4 +114,6 @@ public class Response
     public string FromBody { get; set; }
     public string? Url { get; set; }
     public Custom Custom { get; set; }
+    public CustomList CustomList { get; set; }
+    public Person Person { get; set; }
 }

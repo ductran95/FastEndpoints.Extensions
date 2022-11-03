@@ -6,25 +6,43 @@ using System.Globalization;
 using FastEndpoints.ApiExplorer;
 using FastEndpoints.DiagnosticSources.Middleware;
 using FastEndpoints.Swagger.Swashbuckle;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Web.PipelineBehaviors.PreProcessors;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddCors();
 builder.Services.AddResponseCaching();
 builder.Services.AddFastEndpoints();
-// builder.Services.AddAuthenticationJWTBearer(builder.Configuration["TokenKey"]);
-// builder.Services.AddAuthorization(o => o.AddPolicy("AdminOnly", b => b.RequireRole(Role.Admin)));
+builder.Services.AddAuthenticationJWTBearer(builder.Configuration["TokenKey"]!);
+builder.Services.AddAuthorization(o => o.AddPolicy("AdminOnly", b => b.RequireRole(Role.Admin)));
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddFastEndpointsApiExplorer();
+
+// Swagger
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-    c.CustomSchemaIds( type => type.ToString() );
-    c.OperationFilter<FastEndpointsOperationFilter>();
+    c.ConfigureDefaults(groupByVersion: true, showNoGroupInAllDocuments: true);
+});
+
+builder.Services.AddSwaggerDoc("v1", c =>
+{
+    c.Title = "Web API v1";
+    c.Version = "v1";
+});
+
+builder.Services.AddSwaggerDoc("v2", c =>
+{
+    c.Title = "Web API v2";
+    c.Version = "v2";
+});
+
+builder.Services.AddSwaggerAuth("ApiKey", new()
+{
+    Name = "api_key",
+    In = ParameterLocation.Header,
+    Type = SecuritySchemeType.ApiKey,
 });
 
 // Define some important constants and the activity source
@@ -61,45 +79,46 @@ app.UseResponseCaching();
 app.UseRouting(); //if using, this call must go before auth/cors/fastendpoints middleware
 
 app.UseCors(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseFastEndpointsDiagnosticsMiddleware();
-app.UseFastEndpoints(config =>
+app.UseFastEndpoints(c =>
 {
-    config.ShortEndpointNames = false;
-    config.SerializerOptions = o => o.PropertyNamingPolicy = null;
-    config.EndpointRegistrationFilter = ep => ep.Tags?.Contains("exclude") is not true;
-    config.GlobalEndpointOptions = (epDef, builder) =>
+    c.Serializer.Options.PropertyNamingPolicy = null;
+
+    c.Binding.ValueParserFor<Guid>(x => new(Guid.TryParse(x?.ToString(), out var res), res));
+
+    c.Endpoints.RoutePrefix = "api";
+    c.Endpoints.ShortNames = false;
+    c.Endpoints.Filter = ep => ep.EndpointTags?.Contains("exclude") is not true;
+    c.Endpoints.Configurator = (ep) =>
     {
-        if (epDef.Tags?.Contains("orders") is true)
-            builder.Produces<ErrorResponse>(400, "application/problem+json");
+        ep.PreProcessors(Order.Before, new AdminHeaderChecker());
+        if (ep.EndpointTags?.Contains("orders") is true)
+            ep.Description(b => b.Produces<ErrorResponse>(400, "application/problem+json"));
+        
+        ep.AddApiExplorerGroupName();
     };
-    config.RoutingOptions = o => o.Prefix = "api";
-    config.VersioningOptions = o =>
-    {
-        o.Prefix = "v";
-        //o.DefaultVersion = 1; 
-        //o.SuffixedVersion = false; 
-    };
-    config.ThrottleOptions = o =>
-    {
-        o.HeaderName = "X-Custom-Throttle-Header";
-        o.ThrottledResponse = "Custom Error Response";
-    };
+
+    c.Versioning.Prefix = "v";
+
+    c.Throttle.HeaderName = "X-Custom-Throttle-Header";
+    c.Throttle.Message = "Custom Error Response";
 });
 
-// app.UseEndpoints(c =>
-// {
-//     c.MapGet("test/{testId:int?}", (int? testId, [FromQuery] IEnumerable<string> data) => $"hello {testId}").WithTags("map-get");
-// });
+//this must go after usefastendpoints (only if using endpoints)
+app.UseEndpoints(c =>
+{
+    c.MapGet("test", () => "hello world!").WithTags("map-get");
+    c.MapGet("test/{testId:int?}", (int? testId) => $"hello {testId}").WithTags("map-get");
+});
 
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    c.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
 });
 
 app.Run();
-
-public partial class Program { }

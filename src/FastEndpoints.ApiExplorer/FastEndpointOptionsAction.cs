@@ -1,37 +1,37 @@
-using FastEndpoints.ApiExplorer.Helpers;
-using FastEndpoints.Reflection.Helper;
+using FastEndpoints.Reflection.Extensions;
 using Microsoft.AspNetCore.Builder;
 
 namespace FastEndpoints.ApiExplorer;
 
 public static class FastEndpointOptionsAction
 {
-    public static void AddApiExplorerGroupName(EndpointDefinition epDef, RouteHandlerBuilder builder)
+    public static void AddApiExplorerGroupName(this EndpointDefinition epDef)
     {
-        var routingOpts = FastEndpointsConfigHelper.GetVersioningOpts();
-        
-        var version = epDef.Version.Current > 0 ? epDef.Version.Current : routingOpts?.DefaultVersion;
-        var versionPrefix = routingOpts?.Prefix ?? "v";
-        if (version != null && version > 0)
+        var config = new Config();
+        var routingOpts = config.Versioning;
+
+        var version = epDef.Version.Current > 0 ? epDef.Version.Current : routingOpts.GetDefaultVersion();
+        var versionPrefix = routingOpts.GetPrefix() ?? "v";
+        if (version > 0)
         {
-            builder.WithGroupName($"{versionPrefix}{version}");
+            epDef.Options(x => x.WithGroupName($"{versionPrefix}{version}"));
         }
-        
-        if (epDef.Tags != null)
+
+        if (epDef.EndpointTags != null)
         {
-            builder.WithMetadata(epDef.Tags);
+            epDef.Options(x => x.WithMetadata(epDef.EndpointTags));
         }
     }
-    
-    public static void StopDefaultApiExplorerMetadata(EndpointDefinition epDef, RouteHandlerBuilder builder)
+
+    public static void StopDefaultApiExplorerMetadata(this EndpointDefinition epDef)
     {
         var excludeFromDescriptionMetadata = new ExcludeFromDescriptionMetadata(true);
-        builder.WithMetadata(excludeFromDescriptionMetadata);
+        epDef.Options(x => x.WithMetadata(excludeFromDescriptionMetadata));
     }
-    
-    public static bool RemoveDeprecatedEndpoints(EndpointDefinition ep)
+
+    public static bool RemoveDeprecatedEndpoints(this EndpointDefinition ep)
     {
-        if (ep.Tags != null && (ep.Tags.Contains("Deprecated") || ep.Tags.Contains("Excluded")))
+        if (ep.EndpointTags != null && (ep.EndpointTags.Contains("Deprecated") || ep.EndpointTags.Contains("Excluded")))
             return false; // don't register this endpoint
 
         return true;

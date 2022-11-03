@@ -16,11 +16,11 @@ public static class EndpointDefinitionExtensions
 
     public static string GetEndpointName(this BaseEndpoint endpoint)
     {
-        return endpoint.Definition.Summary?.Summary ?? endpoint.GetType().FullName;
+        return endpoint.Definition.EndpointSummary?.Summary ?? endpoint.GetType().FullName;
     }
     
     public static string GetEndpointName(this EndpointDefinition endpointDefinition)
     {
-        return endpointDefinition.Summary?.Summary ?? endpointDefinition.EndpointType.FullName;
+        return endpointDefinition.EndpointSummary?.Summary ?? endpointDefinition.EndpointType.FullName;
     }
 }

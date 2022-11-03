@@ -17,28 +17,28 @@ public static class FastEndpointsDefinitionExtensions
         FieldInfos = typeof(EndpointDefinition).GetFields(searchPropertyFlags);
     }
 
-    [CanBeNull]
-    public static IPreProcessor<TRequest>[] GetPreProcessors<TRequest>(this EndpointDefinition endpointDefinition)
-    {
-        return GetPropertyValue<IPreProcessor<TRequest>[]>(endpointDefinition, "PreProcessors");
-    }
+    // [CanBeNull]
+    // public static IPreProcessor<TRequest>[] GetPreProcessors<TRequest>(this EndpointDefinition endpointDefinition)
+    // {
+    //     return GetPropertyValue<IPreProcessor<TRequest>[]>(endpointDefinition, "PreProcessorList");
+    // }
     
     [CanBeNull]
-    public static object[] GetPreProcessors(this EndpointDefinition endpointDefinition)
+    public static object[] GetPreProcessorList(this EndpointDefinition endpointDefinition)
     {
-        return GetPropertyValue<object[]>(endpointDefinition, "PreProcessors");
+        return GetPropertyValue<object[]>(endpointDefinition, "PreProcessorList");
     }
 
-    [CanBeNull]
-    public static IPostProcessor<TRequest, TResponse>[] GetPostProcessors<TRequest, TResponse>(this EndpointDefinition endpointDefinition)
-    {
-        return GetPropertyValue<IPostProcessor<TRequest, TResponse>[]>(endpointDefinition, "PostProcessors");
-    }
+    // [CanBeNull]
+    // public static IPostProcessor<TRequest, TResponse>[] GetPostProcessors<TRequest, TResponse>(this EndpointDefinition endpointDefinition)
+    // {
+    //     return GetPropertyValue<IPostProcessor<TRequest, TResponse>[]>(endpointDefinition, "PostProcessors");
+    // }
     
     [CanBeNull]
-    public static object[] GetPostProcessors(this EndpointDefinition endpointDefinition)
+    public static object[] GetPostProcessorList(this EndpointDefinition endpointDefinition)
     {
-        return GetPropertyValue<object[]>(endpointDefinition, "PostProcessors");
+        return GetPropertyValue<object[]>(endpointDefinition, "PostProcessorList");
     }
     
     public static bool GetExecuteAsyncImplemented(this EndpointDefinition endpointDefinition)

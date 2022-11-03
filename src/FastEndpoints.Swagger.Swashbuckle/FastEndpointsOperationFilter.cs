@@ -14,31 +14,43 @@ public class FastEndpointsOperationFilter : IOperationFilter
                 .OfType<EndpointDefinition>()
                 .FirstOrDefault();
 
-        if (endpointDefinition != null)
+        if (endpointDefinition == null)
         {
-            var requestBody =
-                context.ApiDescription.ParameterDescriptions.FirstOrDefault(x => x.Source == BindingSource.Body);
-            if (requestBody != null)
-            {
-                var tobeRemovedParameters = requestBody.ModelMetadata.Properties.Where(x =>
-                        x.AdditionalValues.TryGetValue(nameof(JsonIgnoreAttribute), out var value) &&
-                        value is true)
-                    .Select(x => x.Name)
-                    .ToList();
+            return;
+        }
+        
+        var requestBody =
+            context.ApiDescription.ParameterDescriptions.FirstOrDefault(x => x.Source == BindingSource.Body);
+        if (requestBody != null)
+        {
+            var tobeRemovedParameters = requestBody.ModelMetadata.Properties.Where(x =>
+                    x.AdditionalValues.TryGetValue(nameof(JsonIgnoreAttribute), out var value) &&
+                    value is true)
+                .Select(x => x.Name)
+                .ToList();
 
-                foreach (var bodyContent in operation.RequestBody.Content)
+            foreach (var bodyContent in operation.RequestBody.Content)
+            {
+                var schemaDefault = GenerateOpenApiObject(bodyContent.Value.Schema, context.SchemaRepository);
+
+                OpenApiObject schema = null;
+                if (schemaDefault is OpenApiArray schemaArray)
                 {
-                    var schemaDefault = GenerateOpenApiObject(bodyContent.Value.Schema, context.SchemaRepository);
-                    var schemaObject = (OpenApiObject) schemaDefault;
-                    var keysToRemoved = schemaObject.Keys
-                        .Where(x => tobeRemovedParameters.Any(y => x.Equals(y, StringComparison.InvariantCultureIgnoreCase)))
-                        .ToList();
-                    foreach (var keyToRemoved in keysToRemoved)
-                    {
-                        schemaObject.Remove(keyToRemoved);
-                    }
-                    bodyContent.Value.Example = schemaDefault;
+                    schema = schemaArray.FirstOrDefault() as OpenApiObject;
                 }
+                else if (schemaDefault is OpenApiObject schemaObject)
+                {
+                    schema = schemaObject;
+                }
+                    
+                var keysToRemoved = schema.Keys
+                    .Where(x => tobeRemovedParameters.Any(y => x.Equals(y, StringComparison.InvariantCultureIgnoreCase)))
+                    .ToList();
+                foreach (var keyToRemoved in keysToRemoved)
+                {
+                    schema.Remove(keyToRemoved);
+                }
+                bodyContent.Value.Example = schemaDefault;
             }
         }
     }

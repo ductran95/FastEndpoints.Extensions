@@ -1,38 +1,26 @@
-using System.Diagnostics;
-using FastEndpoints.DiagnosticSources.Endpoint;
 using Web.Services;
 
 namespace Customers.Create;
 
 public class Request
 {
-    public int CID { get; set; }
-    
-    public float Count { get; set; }
+    public string cID { get; set; }
 
-    // [From(Claim.UserName)]
+    [From(Claim.UserName)]
     public string? CreatedBy { get; set; }
 
     /// <summary>
-    /// the name of the customer goes here
+    /// the name of the cutomer goes here
     /// </summary>
     public string? CustomerName { get; set; }
 
     public IEnumerable<string> PhoneNumbers { get; set; }
 
-    // [HasPermission(Allow.Customers_Create)]
+    [HasPermission(Allow.Customers_Create)]
     public bool HasCreatePermission { get; set; }
-    
-    public SubRequest SubData { get; set; }
 }
 
-public class SubRequest
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-}
-
-public class Endpoint : DiagnosticEndpoint<Request>
+public class Endpoint : Endpoint<Request>
 {
     private readonly IEmailService? _emailer;
 
@@ -41,24 +29,13 @@ public class Endpoint : DiagnosticEndpoint<Request>
         _emailer = emailer;
     }
 
-    public Endpoint()
-    {
-    }
-
     public override void Configure()
     {
-        // Verbs(Http.POST, Http.GET);
-        // Routes(
-        //     "/customer/new/{RefererID}",
-        //     "/customer/{cID}/new/{SourceID}",
-        //     "/customer/save");
-        
-        AllowAnonymous();
-        Verbs(Http.POST, Http.GET, Http.PUT, Http.DELETE);
+        Verbs(Http.POST, Http.GET);
         Routes(
-            "/customer/{cID}/new",
-            "/customer/{cID}/new/{customerName}"
-            );
+            "/customer/new/{RefererID}",
+            "/customer/{cID}/new/{SourceID}",
+            "/customer/save");
         DontAutoTag();
         Description(x => x.WithTags("Customer Save"));
     }

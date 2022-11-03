@@ -8,10 +8,10 @@ public class MyResponseLogger<TRequest, TResponse> : IPostProcessor<TRequest, TR
     {
         var logger = ctx.RequestServices.GetRequiredService<ILogger<TResponse>>();
 
-        // if (res is Sales.Orders.Create.Response response)
-        // {
-        //     logger.LogWarning($"sale complete: {response?.OrderID}");
-        // }
+        if (res is Sales.Orders.Create.Response response)
+        {
+            logger.LogWarning($"sale complete: {response?.OrderID}");
+        }
 
         return Task.CompletedTask;
     }

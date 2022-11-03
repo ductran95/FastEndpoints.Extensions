@@ -9,12 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FastEndpoints" Version="4.3.1" />
-        <PackageReference Include="FastEndpoints.Security" Version="4.3.1" />
-        <PackageReference Include="FluentValidation" Version="11.1.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
-        <PackageReference Include="OpenTelemetry" Version="1.3.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.3.0" />
+        <PackageReference Include="FastEndpoints" Version="5.3.1" />
+        <PackageReference Include="FastEndpoints.Security" Version="5.3.1" />
+        <PackageReference Include="FluentValidation" Version="11.2.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
+        <PackageReference Include="OpenTelemetry" Version="1.3.1" />
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.3.1" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.4" />
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.4" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.4" />
@@ -23,58 +23,6 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="Test" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="[Features]\Admin\**" />
-      <Compile Remove="[Features]\Inventory\**" />
-      <Compile Remove="[Features]\Sales\**" />
-      <Compile Remove="[Features]\Shipping\**" />
-      <Compile Remove="[Features]\TestCases\**" />
-      <Compile Remove="[Features]\Uploads\**" />
-      <Compile Remove="[Features]\Customers\List\**" />
-      <Compile Remove="[Features]\Customers\Login\**" />
-      <Compile Remove="[Features]\Customers\Update\**" />
-      <Compile Remove="[Features]\Customers\UpdateWithHeader\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="[Features]\Admin\**" />
-      <EmbeddedResource Remove="[Features]\Inventory\**" />
-      <EmbeddedResource Remove="[Features]\Sales\**" />
-      <EmbeddedResource Remove="[Features]\Shipping\**" />
-      <EmbeddedResource Remove="[Features]\TestCases\**" />
-      <EmbeddedResource Remove="[Features]\Uploads\**" />
-      <EmbeddedResource Remove="[Features]\Customers\List\**" />
-      <EmbeddedResource Remove="[Features]\Customers\Login\**" />
-      <EmbeddedResource Remove="[Features]\Customers\Update\**" />
-      <EmbeddedResource Remove="[Features]\Customers\UpdateWithHeader\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="[Features]\Admin\**" />
-      <None Remove="[Features]\Inventory\**" />
-      <None Remove="[Features]\Sales\**" />
-      <None Remove="[Features]\Shipping\**" />
-      <None Remove="[Features]\TestCases\**" />
-      <None Remove="[Features]\Uploads\**" />
-      <None Remove="[Features]\Customers\List\**" />
-      <None Remove="[Features]\Customers\Login\**" />
-      <None Remove="[Features]\Customers\Update\**" />
-      <None Remove="[Features]\Customers\UpdateWithHeader\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Remove="[Features]\Admin\**" />
-      <Content Remove="[Features]\Inventory\**" />
-      <Content Remove="[Features]\Sales\**" />
-      <Content Remove="[Features]\Shipping\**" />
-      <Content Remove="[Features]\TestCases\**" />
-      <Content Remove="[Features]\Uploads\**" />
-      <Content Remove="[Features]\Customers\List\**" />
-      <Content Remove="[Features]\Customers\Login\**" />
-      <Content Remove="[Features]\Customers\Update\**" />
-      <Content Remove="[Features]\Customers\UpdateWithHeader\**" />
     </ItemGroup>
 
     <ItemGroup>
