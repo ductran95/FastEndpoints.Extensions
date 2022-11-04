@@ -17,28 +17,16 @@ public static class FastEndpointsDefinitionExtensions
         FieldInfos = typeof(EndpointDefinition).GetFields(searchPropertyFlags);
     }
 
-    // [CanBeNull]
-    // public static IPreProcessor<TRequest>[] GetPreProcessors<TRequest>(this EndpointDefinition endpointDefinition)
-    // {
-    //     return GetPropertyValue<IPreProcessor<TRequest>[]>(endpointDefinition, "PreProcessorList");
-    // }
-    
     [CanBeNull]
-    public static object[] GetPreProcessorList(this EndpointDefinition endpointDefinition)
+    public static List<object> GetPreProcessorList(this EndpointDefinition endpointDefinition)
     {
-        return GetPropertyValue<object[]>(endpointDefinition, "PreProcessorList");
+        return GetPropertyValue<List<object>>(endpointDefinition, "PreProcessorList");
     }
-
-    // [CanBeNull]
-    // public static IPostProcessor<TRequest, TResponse>[] GetPostProcessors<TRequest, TResponse>(this EndpointDefinition endpointDefinition)
-    // {
-    //     return GetPropertyValue<IPostProcessor<TRequest, TResponse>[]>(endpointDefinition, "PostProcessors");
-    // }
     
     [CanBeNull]
-    public static object[] GetPostProcessorList(this EndpointDefinition endpointDefinition)
+    public static List<object> GetPostProcessorList(this EndpointDefinition endpointDefinition)
     {
-        return GetPropertyValue<object[]>(endpointDefinition, "PostProcessorList");
+        return GetPropertyValue<List<object>>(endpointDefinition, "PostProcessorList");
     }
     
     public static bool GetExecuteAsyncImplemented(this EndpointDefinition endpointDefinition)
