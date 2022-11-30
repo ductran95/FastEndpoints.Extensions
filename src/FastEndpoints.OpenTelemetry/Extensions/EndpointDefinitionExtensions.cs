@@ -1,25 +1,25 @@
 using FastEndpoints.Reflection.Extensions;
 
-namespace FastEndpoints.DiagnosticSources.Extensions;
+namespace FastEndpoints.OpenTelemetry.Extensions;
 
-public static class EndpointDefinitionExtensions
+internal static class EndpointDefinitionExtensions
 {
-    public static string GetActivityName(this BaseEndpoint endpoint)
+    internal static string GetActivityName(this BaseEndpoint endpoint)
     {
         return $"{endpoint.GetEndpointName()}.{(endpoint.Definition.GetExecuteAsyncImplemented() ? "ExecuteAsync" : "HandleAsync")}";
     }
     
-    public static string GetActivityName(this EndpointDefinition endpointDefinition)
+    internal static string GetActivityName(this EndpointDefinition endpointDefinition)
     {
         return $"{endpointDefinition.GetEndpointName()}.{(endpointDefinition.GetExecuteAsyncImplemented() ? "ExecuteAsync" : "HandleAsync")}";
     }
 
-    public static string GetEndpointName(this BaseEndpoint endpoint)
+    internal static string GetEndpointName(this BaseEndpoint endpoint)
     {
         return endpoint.Definition.EndpointSummary?.Summary ?? endpoint.GetType().FullName;
     }
     
-    public static string GetEndpointName(this EndpointDefinition endpointDefinition)
+    internal static string GetEndpointName(this EndpointDefinition endpointDefinition)
     {
         return endpointDefinition.EndpointSummary?.Summary ?? endpointDefinition.EndpointType.FullName;
     }

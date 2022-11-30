@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace FastEndpoints.DiagnosticSources.Middleware;
+namespace FastEndpoints.OpenTelemetry.Middleware;
 
 public static class ApplicationBuilderExtensions
 {

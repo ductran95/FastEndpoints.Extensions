@@ -4,7 +4,9 @@ global using Web.Auth;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using FastEndpoints.ApiExplorer;
-using FastEndpoints.DiagnosticSources.Middleware;
+using FastEndpoints.OpenTelemetry;
+using FastEndpoints.OpenTelemetry.Extensions;
+using FastEndpoints.OpenTelemetry.Middleware;
 using FastEndpoints.Swagger.Swashbuckle;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Resources;
@@ -53,14 +55,14 @@ var serviceVersion = "1.0.0";
 builder.Services.AddOpenTelemetryTracing(b =>
 {
     b
-        .AddConsoleExporter()
         .AddSource(serviceName)
         .SetResourceBuilder(
             ResourceBuilder.CreateDefault()
                 .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
         .AddHttpClientInstrumentation()
         .AddAspNetCoreInstrumentation()
-        .AddSource(FastEndpoints.DiagnosticSources.Trace.ActivitySourceName);
+        .AddFastEndpointsInstrumentation()
+        .AddConsoleExporter();
 });
 
 var app = builder.Build();

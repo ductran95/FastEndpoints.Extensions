@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.ApiExplorer",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "sample\Web\Web.csproj", "{A5D85B37-27D5-416D-BFE6-686BEB5611DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.DiagnosticSources", "src\FastEndpoints.DiagnosticSources\FastEndpoints.DiagnosticSources.csproj", "{0EA54DD8-1A1B-4DEF-A085-01C648595FC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.OpenTelemetry", "src\FastEndpoints.OpenTelemetry\FastEndpoints.OpenTelemetry.csproj", "{0EA54DD8-1A1B-4DEF-A085-01C648595FC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastEndpoints.Reflection", "src\FastEndpoints.Reflection\FastEndpoints.Reflection.csproj", "{BACCE356-2989-42EF-AE76-3C1A59D4DEFB}"
 EndProject
