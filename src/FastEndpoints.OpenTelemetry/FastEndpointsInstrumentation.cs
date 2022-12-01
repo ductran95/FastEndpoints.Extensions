@@ -5,17 +5,17 @@ namespace FastEndpoints.OpenTelemetry;
 
 internal class FastEndpointsInstrumentation: IDisposable
 {
-    private readonly DiagnosticSourceSubscriber diagnosticSourceSubscriber;
+    private readonly DiagnosticSourceSubscriber _diagnosticSourceSubscriber;
 
     public FastEndpointsInstrumentation(FastEndpointsListener httpInListener)
     {
-        this.diagnosticSourceSubscriber = new DiagnosticSourceSubscriber(httpInListener, null);
-        this.diagnosticSourceSubscriber.Subscribe();
+        _diagnosticSourceSubscriber = new DiagnosticSourceSubscriber(httpInListener, null);
+        _diagnosticSourceSubscriber.Subscribe();
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
-        this.diagnosticSourceSubscriber?.Dispose();
+        _diagnosticSourceSubscriber?.Dispose();
     }
 }
