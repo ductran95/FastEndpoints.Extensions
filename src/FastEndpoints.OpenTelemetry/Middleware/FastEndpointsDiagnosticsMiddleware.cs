@@ -1,6 +1,4 @@
 using System.Diagnostics;
-using FastEndpoints.OpenTelemetry.Extensions;
-using FastEndpoints.OpenTelemetry.Implementation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 
@@ -8,7 +6,7 @@ namespace FastEndpoints.OpenTelemetry.Middleware;
 
 public class FastEndpointsDiagnosticsMiddleware
 {
-    private static readonly DiagnosticSource _fastEndpointsLogger = new DiagnosticListener("FastEndpoints");
+    private static readonly DiagnosticSource FastEndpointsLogger = new DiagnosticListener("FastEndpoints");
     
     private readonly RequestDelegate _next;
 
@@ -29,9 +27,9 @@ public class FastEndpointsDiagnosticsMiddleware
 
             if (epDef is not null)
             {
-                if (_fastEndpointsLogger.IsEnabled("FastEndpointsStart"))
+                if (FastEndpointsLogger.IsEnabled("FastEndpointsStart"))
                 {
-                    _fastEndpointsLogger.Write("FastEndpointsStart", new
+                    FastEndpointsLogger.Write("FastEndpointsStart", new
                     {
                         HttpContext = ctx,
                         EndpointDefinition = epDef
@@ -42,9 +40,9 @@ public class FastEndpointsDiagnosticsMiddleware
                 {
                     await _next(ctx);
 
-                    if (_fastEndpointsLogger.IsEnabled("FastEndpointsStop"))
+                    if (FastEndpointsLogger.IsEnabled("FastEndpointsStop"))
                     {
-                        _fastEndpointsLogger.Write("FastEndpointsStop", new
+                        FastEndpointsLogger.Write("FastEndpointsStop", new
                         {
                             HttpContext = ctx,
                             EndpointDefinition = epDef
@@ -53,9 +51,9 @@ public class FastEndpointsDiagnosticsMiddleware
                 }
                 catch (ValidationFailureException validationFailureException)
                 {
-                    if (_fastEndpointsLogger.IsEnabled("FastEndpointsOnValidationFailed"))
+                    if (FastEndpointsLogger.IsEnabled("FastEndpointsOnValidationFailed"))
                     {
-                        _fastEndpointsLogger.Write("FastEndpointsOnValidationFailed", new
+                        FastEndpointsLogger.Write("FastEndpointsOnValidationFailed", new
                         {
                             ValidationFailures = validationFailureException.Failures,
                             HttpContext = ctx,
@@ -63,9 +61,9 @@ public class FastEndpointsDiagnosticsMiddleware
                         });
                     }
                     
-                    if (_fastEndpointsLogger.IsEnabled("FastEndpointsException"))
+                    if (FastEndpointsLogger.IsEnabled("FastEndpointsException"))
                     {
-                        _fastEndpointsLogger.Write("FastEndpointsException", new
+                        FastEndpointsLogger.Write("FastEndpointsException", new
                         {
                             HttpContext = ctx,
                             EndpointDefinition = epDef
@@ -74,11 +72,11 @@ public class FastEndpointsDiagnosticsMiddleware
                     
                     throw;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    if (_fastEndpointsLogger.IsEnabled("FastEndpointsException"))
+                    if (FastEndpointsLogger.IsEnabled("FastEndpointsException"))
                     {
-                        _fastEndpointsLogger.Write("FastEndpointsException", new
+                        FastEndpointsLogger.Write("FastEndpointsException", new
                         {
                             HttpContext = ctx,
                             EndpointDefinition = epDef

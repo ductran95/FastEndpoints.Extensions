@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using FastEndpoints.ApiExplorer;
 using FastEndpoints.OpenTelemetry;
-using FastEndpoints.OpenTelemetry.Extensions;
 using FastEndpoints.OpenTelemetry.Middleware;
 using FastEndpoints.Swagger.Swashbuckle;
 using Microsoft.OpenApi.Models;
@@ -18,7 +17,7 @@ var builder = WebApplication.CreateBuilder();
 builder.Services.AddCors();
 builder.Services.AddResponseCaching();
 builder.Services.AddFastEndpoints();
-builder.Services.AddAuthenticationJWTBearer(builder.Configuration["TokenKey"]!);
+builder.Services.AddJWTBearerAuth(builder.Configuration["TokenKey"]!);
 builder.Services.AddAuthorization(o => o.AddPolicy("AdminOnly", b => b.RequireRole(Role.Admin)));
 builder.Services.AddScoped<IEmailService, EmailService>();
 
@@ -52,7 +51,7 @@ var serviceName = "Web";
 var serviceVersion = "1.0.0";
 
 // Configure important OpenTelemetry settings, the console exporter, and instrumentation library
-builder.Services.AddOpenTelemetryTracing(b =>
+builder.Services.AddOpenTelemetry().WithTracing(b =>
 {
     b
         .AddSource(serviceName)

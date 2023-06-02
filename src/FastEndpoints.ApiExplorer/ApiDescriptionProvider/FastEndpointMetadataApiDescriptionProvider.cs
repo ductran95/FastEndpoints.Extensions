@@ -3,13 +3,11 @@ using System.Text.Json.Serialization;
 using FastEndpoints.ApiExplorer.Extensions;
 using FastEndpoints.ApiExplorer.Helpers;
 using FastEndpoints.ApiExplorer.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Patterns;
-using Microsoft.Extensions.Hosting;
 
 namespace FastEndpoints.ApiExplorer.ApiDescriptionProvider;
 
@@ -54,7 +52,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
     {
         var requestBody = apiDescription.ParameterDescriptions.FirstOrDefault();
 
-        if (requestBody is not null)
+        if (requestBody is not null && apiDescription.RelativePath is not null)
         {
             var apiParamDescriptions = new List<ApiParameterDescription>();
             var isGetOrDeleteRequest = apiDescription.HttpMethod is "GET" or "DELETE";
@@ -76,7 +74,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
                         requestParameterProperty.FromHeaderAttribute.HeaderName ?? propertyName,
                         requestParameterProperty.FromHeaderAttribute.IsRequired ||
                         !requestParameterProperty.PropertyInfo.IsNullable(),
-                        BindingSource.Header);
+                        Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Header);
                     apiParamDescriptions.Add(apiParam);
                     RemovePropertyFromBody(requestBody, requestParameterProperty.PropertyInfo);
 
@@ -94,7 +92,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
                          ?? requestParameterProperty.FromAttribute?.IsRequired
                          ?? false) ||
                         !requestParameterProperty.PropertyInfo.IsNullable(),
-                        BindingSource.Custom);
+                        Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Custom);
                     apiParamDescriptions.Add(apiParam);
                     RemovePropertyFromBody(requestBody, requestParameterProperty.PropertyInfo);
 
@@ -107,7 +105,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
                         requestParameterProperty,
                         propertyName,
                         !requestParameterProperty.PropertyInfo.IsNullable(),
-                        BindingSource.Query);
+                        Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Query);
                     apiParamDescriptions.Add(apiParam);
                     RemovePropertyFromBody(requestBody, requestParameterProperty.PropertyInfo);
 
@@ -122,7 +120,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
                         requestParameterProperty,
                         routeParamProperty.Name,
                         !requestParameterProperty.PropertyInfo.IsNullable(),
-                        BindingSource.Path);
+                        Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Path);
                     apiParamDescriptions.Add(apiParam);
                     RemovePropertyFromBody(requestBody, requestParameterProperty.PropertyInfo);
 
@@ -135,7 +133,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
                         requestParameterProperty,
                         propertyName,
                         !requestParameterProperty.PropertyInfo.IsNullable(),
-                        BindingSource.Query);
+                        Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Query);
                     apiParamDescriptions.Add(apiParam);
                     RemovePropertyFromBody(requestBody, requestParameterProperty.PropertyInfo);
                 }
@@ -150,7 +148,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
             }
 
             apiDescription.ParameterDescriptions.Clear();
-            foreach (var apiParameterDescription in apiParamDescriptions.Where(x => x.Source != BindingSource.Custom))
+            foreach (var apiParameterDescription in apiParamDescriptions.Where(x => x.Source != Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource.Custom))
             {
                 apiDescription.ParameterDescriptions.Add(apiParameterDescription);
             }
@@ -169,7 +167,7 @@ public class FastEndpointMetadataApiDescriptionProvider : IApiDescriptionProvide
 
     private ApiParameterDescription CreateParameterDescription(Type requestType,
         FastEndpointPropertyInfo requestParameterProperty,
-        string name, bool isRequired, BindingSource bindingSource)
+        string name, bool isRequired, Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource bindingSource)
     {
         var propertyInfo = requestParameterProperty.PropertyInfo;
         var propertyType = propertyInfo.PropertyType;

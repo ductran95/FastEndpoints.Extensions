@@ -1,4 +1,3 @@
-using System.Collections.Immutable;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Metadata;
 
@@ -21,7 +20,7 @@ public class FastEndpointModelMetadata : ModelMetadata
 
     public override string BinderModelName { get; }
     public override Type BinderType { get; }
-    public override BindingSource BindingSource { get; }
+    public override Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource BindingSource { get; }
     public override bool ConvertEmptyStringToNull { get; }
     public override string DataTypeName { get; }
     public override string Description { get; }

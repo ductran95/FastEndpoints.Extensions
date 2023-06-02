@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FastEndpoints.Swagger.Swashbuckle;
+using BindingSource = Microsoft.AspNetCore.Mvc.ModelBinding.BindingSource;
 
 public class FastEndpointsOperationFilter : IOperationFilter
 {
