@@ -249,7 +249,7 @@ public class FastEndpointsOperationFilter : IOperationFilter
             };
         }
         //ToDo add else branch for complex types
-        throw new NotSupportedException("Complex types in dictionary are not supported");
+        return new OpenApiNull();
 
     }
 
