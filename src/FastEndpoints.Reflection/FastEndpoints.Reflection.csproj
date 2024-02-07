@@ -2,11 +2,11 @@
 
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
-        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FastEndpoints" Version="5.14.0" />
+      <PackageReference Include="FastEndpoints" />
     </ItemGroup>
 
 </Project>

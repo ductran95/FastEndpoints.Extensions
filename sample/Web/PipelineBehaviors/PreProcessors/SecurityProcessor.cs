@@ -1,19 +1,17 @@
-﻿using FluentValidation.Results;
-
-namespace Web.PipelineBehaviors.PreProcessors;
+﻿namespace Web.PipelineBehaviors.PreProcessors;
 
 public class SecurityProcessor<TRequest> : IPreProcessor<TRequest>
 {
-    public Task PreProcessAsync(TRequest req, HttpContext ctx, List<ValidationFailure> failures, CancellationToken ct)
+    public Task PreProcessAsync(IPreProcessorContext<TRequest> context, CancellationToken ct)
     {
-        var tenantID = ctx.Request.Headers["tenant-id"].FirstOrDefault();
+        var tenantID = context.HttpContext.Request.Headers["tenant-id"].FirstOrDefault();
 
         if (tenantID == null)
         {
-            failures.Add(new("MissingHeaders", "The [tenant-id] header needs to be set!"));
-            return ctx.Response.SendErrorsAsync(failures);
+            context.ValidationFailures.Add(new("MissingHeaders", "The [tenant-id] header needs to be set!"));
+            return context.HttpContext.Response.SendErrorsAsync(context.ValidationFailures);
         }
 
-        return tenantID != "qwerty" ? ctx.Response.SendForbiddenAsync() : Task.CompletedTask;
+        return tenantID != "qwerty" ? context.HttpContext.Response.SendForbiddenAsync() : Task.CompletedTask;
     }
 }

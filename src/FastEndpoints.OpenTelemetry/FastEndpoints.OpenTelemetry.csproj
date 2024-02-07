@@ -2,12 +2,12 @@
 
     <PropertyGroup>
         <ImplicitUsings>enable</ImplicitUsings>
-        <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net8.0</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="FastEndpoints" Version="5.14.0" />
-      <PackageReference Include="OpenTelemetry" Version="1.5.1" />
+      <PackageReference Include="FastEndpoints" />
+      <PackageReference Include="OpenTelemetry" />
     </ItemGroup>
 
     <ItemGroup>
